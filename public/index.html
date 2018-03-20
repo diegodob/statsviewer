@@ -39,6 +39,8 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <div id="barGraphPlaceholder"></div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -75,26 +77,42 @@
 				throw error;
 			}
 			someCsvData.forEach(function(d) {
-				//console.log("d: ", d );
 				aService = d["Service"];
-				//If service not exists in myData, initialize it.
 				if (!(aService in myData)) {
 					myData[aService] = {count: 0};
-				//	console.log("myData xx: *", myData[aService], "*");
 				}
-				//aDataRow = myData[aService];
-				//aDataRow.count += 1;
 				myData[aService].count = myData[aService].count + 1;
-				//console.log("myData[aService] : *", myData[aService], "*");
-				//console.log("myData : *", myData, "*");
 			});
-			//console.log("myData final: *",myData_length, myData, "*");
-			//var myData_length = Object.keys(myData).length;
 			
 			var entries = d3.entries(myData);	
 		
-		
-			var graph = d3.select("body")
+			barGraph("#barGraphPlaceholder", entries)
+		}
+	);
+	//INICIO - GRAFICO DE TORTAS
+	/*
+	var arc = g.selectAll(".arc")
+	   .data(pie(data))
+	   .enter()
+	   .append("g")
+	   .attr("class", "arc");
+
+	arc.append("path")
+	   .attr("d", path)
+	   .attr("fill", function(d) { return color(d.data.states); });
+
+	console.log(arc)
+
+	arc.append("text").attr("transform", function(d) { 
+	   return "translate(" + label.centroid(d) + ")"; 
+	})
+
+	.text(function(d) { return d.data.states; });
+	});
+	*/
+	
+	function barGraph(targetSelector,entries) {
+			var graph = d3.select(targetSelector)
 				.append("svg")
 				.attr("width", width)
 				.attr("height", barHeight * entries.length);
@@ -124,30 +142,7 @@
 				.text(function(d) { return d.key; });
 		
 			console.log("xxxx 6");	
-		}
-	);
-	//INICIO - GRAFICO DE TORTAS
-	/*
-	var arc = g.selectAll(".arc")
-	   .data(pie(data))
-	   .enter()
-	   .append("g")
-	   .attr("class", "arc");
-
-	arc.append("path")
-	   .attr("d", path)
-	   .attr("fill", function(d) { return color(d.data.states); });
-
-	console.log(arc)
-
-	arc.append("text").attr("transform", function(d) { 
-	   return "translate(" + label.centroid(d) + ")"; 
-	})
-
-	.text(function(d) { return d.data.states; });
-	});
-	*/
-		 
+	}
  </script>
  </body>
 </html>
